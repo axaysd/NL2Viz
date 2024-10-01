@@ -1,13 +1,12 @@
 # Data Visualization Assistant
 
-This project is a Flask-based web application that allows users to upload CSV files, run queries, and visualize the results. The application supports creating plots based on the user's queries by leveraging the `pandas` library for data manipulation and `matplotlib` for visualizations. It also utilizes the Ollama API to generate Python visualization code dynamically based on the data.
+This project is a Flask-based web application that allows users to upload CSV files, run plain English queries, and get data visualization results. The application supports creating plots based on the user's queries by leveraging the `pandas` library for data manipulation and `matplotlib` for visualizations. It also utilizes the Ollama API and llama-3.2-1B SLM to generate Python visualization code dynamically based on the data.
 
 ## Features
 
 - **Upload CSV Files:** Users can upload CSV files directly from the web interface.
 - **Run Queries:** Execute custom queries on the uploaded CSV data.
 - **Visualize Results:** Automatically generate visualizations based on user-defined queries in Natural Language.
-- **Top 5 Records Preview:** Provides a preview of the first 5 records in the CSV file.
   
 ## Prerequisites
 
