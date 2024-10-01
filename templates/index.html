@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Visualizer Assistant</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #6C63FF;
+            --secondary-color: #4CAF50;
+            --accent-color: #FF6B6B;
+            --background-color: #F0F3FF;
+            --text-color: #333;
+            --light-text-color: #666;
+        }
+        body {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--background-color);
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 30px;
+            background-color: #fff;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: var(--primary-color);
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+            font-weight: 600;
+        }
+        .form-group {
+            margin-bottom: 25px;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+        input[type="file"] {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid var(--primary-color);
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+        }
+        input[type="file"]:hover {
+            border-color: var(--accent-color);
+        }
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid var(--primary-color);
+            border-radius: 8px;
+            resize: vertical;
+            min-height: 120px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+        }
+        textarea:focus {
+            outline: none;
+            border-color: var(--accent-color);
+        }
+        button {
+            background-color: var(--secondary-color);
+            color: #fff;
+            padding: 14px 25px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 18px;
+            font-weight: 600;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            display: block;
+            width: 100%;
+            margin-top: 20px;
+        }
+        button:hover {
+            background-color: #45a049;
+            transform: translateY(-2px);
+        }
+        .file-info {
+            margin-top: 25px;
+            padding: 20px;
+            background-color: #E8EAFF;
+            border-radius: 8px;
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+        .file-info h3 {
+            color: var(--primary-color);
+            margin-top: 0;
+        }
+        .error {
+            color: var(--accent-color);
+            margin-top: 15px;
+            font-weight: 600;
+            text-align: center;
+        }
+        .loading {
+            display: none;
+            text-align: center;
+            margin-top: 20px;
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+        .loading::after {
+            content: "...";
+            animation: dots 1.5s steps(5, end) infinite;
+        }
+        @keyframes dots {
+            0%, 20% { content: "."; }
+            40% { content: ".."; }
+            60% { content: "..."; }
+            80%, 100% { content: ""; }
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .visualization {
+            margin-top: 25px;
+            text-align: center;
+        }
+        .visualization img {
+            max-width: 100%;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        #dataTable {
+            min-width: 600px; /* Set a minimum width for the table */
+            border: 1px solid #ddd; /* Add a border to the table */
+        }
+        #dataTable th, #dataTable td {
+            border: 1px solid #ddd; /* Add borders to table cells */
+            padding: 8px; /* Add padding to table cells */
+            text-align: left; /* Align text to the left */
+        }
+        #dataTable th {
+            background-color: var(--primary-color); /* Set header background color */
+            color: white; /* Set header text color */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Data Visualization Assistant</h1>
+        <form id="csvForm">
+            <div class="form-group">
+                <label for="file">Upload Your CSV File:</label>
+                <input type="file" id="file" name="file" accept=".csv" required>
+            </div>
+            <div class="form-group">
+                <label for="query">Enter Your Query:</label>
+                <textarea id="query" name="query" required placeholder="Show something interesting (or) Show Debt over the Years"></textarea>
+            </div>
+            <button type="submit">Execute Query ✨</button>
+        </form>
+        <div id="fileInfo" class="file-info">
+            <h3>File Information (Top 5 records)</h3>
+            <p id="fileDetails"></p>
+            <div style="overflow-x: auto;">
+                <table id="dataTable" style="width: 100%; border-collapse: collapse; margin-top: 15px;">
+                    <thead>
+                        <tr id="tableHeader"></tr>
+                    </thead>
+                    <tbody id="tableBody"></tbody>
+                </table>
+            </div>
+        </div>
+        <div id="error" class="error"></div>
+        <div id="loading" class="loading">Processing...</div>
+        <div id="visualization" class="visualization"></div>
+    </div>
+
+    <script>
+        const form = document.getElementById('csvForm');
+        const fileInput = document.getElementById('file');
+        const fileInfo = document.getElementById('fileInfo');
+        const fileDetails = document.getElementById('fileDetails');
+        const errorDiv = document.getElementById('error');
+        const loadingDiv = document.getElementById('loading');
+        const tableHeader = document.getElementById('tableHeader');
+        const tableBody = document.getElementById('tableBody');
+        const visualizationDiv = document.getElementById('visualization');
+
+        fileInput.addEventListener('change', async (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            const formData = new FormData();
+            formData.append('file', file);
+
+            try {
+                loadingDiv.style.display = 'block';
+                const response = await fetch('/upload', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const data = await response.json();
+                loadingDiv.style.display = 'none';
+
+                if (response.ok) {
+                    fileDetails.innerHTML = `
+                        <strong>File:</strong> ${file.name}<br>
+                    `;
+                    fileInfo.style.display = 'block';
+                    errorDiv.style.display = 'none';
+
+                    // Populate the table with top records
+                    tableHeader.innerHTML = ''; // Clear previous header
+                    tableBody.innerHTML = ''; // Clear previous body
+
+                    // Populate table header
+                    data.columns.forEach(column => {
+                        const th = document.createElement('th');
+                        th.textContent = column;
+                        th.style.border = '1px solid #ddd';
+                        th.style.padding = '8px';
+                        tableHeader.appendChild(th);
+                    });
+
+                    // Populate table body with top records
+                    data.top_records.forEach(record => {
+                        const tr = document.createElement('tr');
+                        for (const column of data.columns) {
+                            const td = document.createElement('td');
+                            td.textContent = record[column];
+                            td.style.border = '1px solid #ddd';
+                            td.style.padding = '8px';
+                            tr.appendChild(td);
+                        }
+                        tableBody.appendChild(tr);
+                    });
+                } else {
+                    throw new Error(data.error);
+                }
+            } catch (error) {
+                loadingDiv.style.display = 'none';
+                errorDiv.textContent = `Error: ${error.message}`;
+                errorDiv.style.display = 'block';
+                fileInfo.style.display = 'none';
+            }
+        });
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const formData = new FormData(form);
+            const visualize = true;  // Always visualize the results
+
+            try {
+                loadingDiv.style.display = 'block';
+                let response;
+                
+                if (visualize) {
+                    response = await fetch('/visualize', {
+                        method: 'POST',
+                        body: formData
+                    });
+                } else {
+                    response = await fetch('/query', {
+                        method: 'POST',
+                        body: formData
+                    });
+                }
+
+                loadingDiv.style.display = 'none';
+
+                if (response.ok) {
+                    if (visualize) {
+                        const data = await response.json();
+                        visualizationDiv.innerHTML = `<img src="data:image/png;base64,${data.image}" alt="Visualization">`;
+                        errorDiv.style.display = 'none';
+                    } else {
+                        // ... existing code for downloading CSV ...
+                    }
+                } else {
+                    const data = await response.json();
+                    throw new Error(data.error);
+                }
+            } catch (error) {
+                errorDiv.textContent = `Error: ${error.message}`;
+                errorDiv.style.display = 'block';
+            }
+        });
+    </script>
+</body>
+</html>
