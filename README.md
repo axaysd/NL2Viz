@@ -11,7 +11,7 @@ This project is a Flask-based web application that allows users to upload CSV fi
   
 ## Prerequisites
 
-- **Ollama**: You must have Ollama installed and running locally, as the app communicates with it to generate the visualization code.
+- **Ollama**: You must have Ollama installed (with a SLM like llama3.2:3B) and running locally, as the app communicates with it to generate the visualization code.
   - [Ollama Installation Guide](https://ollama.ai)
 - **Python 3.8+**: The application is built using Python.
 - **Flask**: A micro web framework used to create the application.
