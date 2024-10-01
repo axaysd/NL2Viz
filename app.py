@@ -114,7 +114,7 @@ def visualize():
         # Initialize generated_code with the correct definition of df
         generated_code = f"import pandas as pd\nimport matplotlib.pyplot as plt\n\n"  # Start with imports
         generated_code += f"df = pd.read_csv('{file_path}')\n"  # Define df using the saved file path
-        print("hahah", generated_code)
+        print("Generated Code: ", generated_code)
         
         for line in ollama_response.iter_lines():
             if line:
@@ -147,7 +147,9 @@ def visualize():
             
             return jsonify({'image': img_base64})
         except Exception as e:
-            return jsonify({'error': f'Error executing generated code: {str(e)}'}), 400
+            print(f"Error executing generated code: {str(e)}")
+            # Rerun the visualize function
+            return visualize()  # Call visualize() again to retry
     except requests.RequestException as e:
         return jsonify({'error': f'Error communicating with Ollama API: {str(e)}'}), 500
 
