@@ -1,7 +1,7 @@
 
 # **Plain Natural Language Input ---> Data Visualization Output**
 
-Transform natural language queries into data visualizations with ease. This Flask-based web application uses a fine-tuned **Llama3.2-1B** model to dynamically generate Python visualization code from plain English queries. It integrates seamlessly with `pandas` for data manipulation and `matplotlib` for creating stunning plots.
+Transform natural language queries into data visualizations with ease. This Flask-based web application uses a fine-tuned **Llama3.2-1B** model to dynamically generate Python Matplotlib code for the most context-appropriate visualizations from plain English queries. It integrates seamlessly with `pandas` for data manipulation and `matplotlib` for creating stunning plots.
 
 ## **Features**
 
