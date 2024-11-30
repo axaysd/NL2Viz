@@ -61,15 +61,6 @@ Before running the application, ensure you have the following installed:
    - _"Show me a pie chart of market share by product."_
 3. View the generated visualization directly in the app.
 
-## **Acknowledgements**
-
-- **Llama3.2-1B**: Fine-tuned using **Unsloth** and a custom dataset of 500 English-to-code records.
-- **pandas** and **matplotlib**: For data handling and visualization.
-
-## **Contributing**
-
-Contributions are welcome! Feel free to submit issues, feature requests, or pull requests to improve the project.
-
 ---
 
 ### **License**
