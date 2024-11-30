@@ -1,18 +1,77 @@
-# Data Visualization Assistant
 
-This project is a Flask-based web application that allows users to upload CSV files, run plain English queries, and get data visualization results. The application supports creating plots based on the user's queries by leveraging the `pandas` library for data manipulation and `matplotlib` for visualizations. It also utilizes the Ollama API and llama-3.2-1B SLM to generate Python visualization code dynamically based on the data.
+# **Data Visualization Assistant**
 
-## Features
+Transform natural language queries into data visualizations with ease. This Flask-based web application uses a fine-tuned **Llama3.2-1B** model to dynamically generate Python visualization code from plain English queries. It integrates seamlessly with `pandas` for data manipulation and `matplotlib` for creating stunning plots.
 
-- **Upload CSV Files:** Users can upload CSV files directly from the web interface.
-- **Run Queries:** Execute custom queries on the uploaded CSV data.
-- **Visualize Results:** Automatically generate visualizations based on user-defined queries in Natural Language.
-  
-## Prerequisites
+## **Features**
 
-- **Ollama**: You must have Ollama installed (with a SLM like llama3.2:3B) and running locally, as the app communicates with it to generate the visualization code.
-  - [Ollama Installation Guide](https://ollama.ai)
-- **Python 3.8+**: The application is built using Python.
-- **Flask**: A micro web framework used to create the application.
-- **pandas**: For data manipulation.
-- **matplotlib**: For generating plots.
+- **Upload CSV Files**: Upload CSV files directly from the web interface for analysis.
+- **Natural Language Queries**: Run plain English queries such as:
+  - _"Create a line chart of temperature over time."_  
+  - _"Show a bar chart of sales by region."_
+- **Dynamic Visualizations**: Generate bar charts, scatter plots, line graphs, and more based on your queries.
+- **Model Integration**: Leverages a fine-tuned **Llama3.2-1B** model (fine-tuned using **Unsloth**) to convert English queries into accurate Python `matplotlib` code.
+
+## **Technical Highlights**
+
+- **Fine-Tuned Model**: Powered by a fine-tuned **Llama3.2-1B** model, trained on a dataset of 500 query-to-code pairs to ensure precise code generation.
+- **Flask Framework**: Provides a clean and responsive web interface for file uploads and query execution.
+- **Data Processing**: Uses `pandas` for efficient manipulation and filtering of datasets.
+- **Visualization**: Produces professional-grade visualizations with `matplotlib`.
+
+## **Prerequisites**
+
+Before running the application, ensure you have the following installed:
+
+- **[Ollama](https://ollama.ai)**: Required to run the Llama3.2-1B model locally for query-to-code transformation.
+- **Python 3.8+**: Ensure Python 3.8 or later is installed.
+- **Flask**: A lightweight framework for the web application.
+- **pandas**: For flexible and efficient data manipulation.
+- **matplotlib**: To generate visualizations.
+
+## **Installation**
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/your-repo-name.git
+   cd your-repo-name
+   ```
+
+2. Install dependencies:
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+3. Ensure **Ollama** is running locally with the fine-tuned **Llama3.2-1B** model.
+
+4. Start the Flask application:
+   ```bash
+   python app.py
+   ```
+
+5. Access the application in your browser at:
+   ```
+   http://127.0.0.1:5000
+   ```
+
+## **Usage**
+
+1. Upload your CSV file via the web interface.
+2. Enter your query in plain English, such as:
+   - _"Show me a pie chart of market share by product."_
+3. View the generated visualization directly in the app.
+
+## **Acknowledgements**
+
+- **Llama3.2-1B**: Fine-tuned using **Unsloth** and a custom dataset of 500 English-to-code records.
+- **pandas** and **matplotlib**: For data handling and visualization.
+
+## **Contributing**
+
+Contributions are welcome! Feel free to submit issues, feature requests, or pull requests to improve the project.
+
+---
+
+### **License**
+
+This project is licensed under the MIT License. See the `LICENSE` file for details.
