@@ -60,9 +60,3 @@ Before running the application, ensure you have the following installed:
 2. Enter your query in plain English, such as:
    - _"Show me a pie chart of market share by product."_
 3. View the generated visualization directly in the app.
-
----
-
-### **License**
-
-This project is licensed under the MIT License. See the `LICENSE` file for details.
